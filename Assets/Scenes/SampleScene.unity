@@ -663,6 +663,7 @@ GameObject:
   - component: {fileID: 171960817}
   - component: {fileID: 171960819}
   - component: {fileID: 171960820}
+  - component: {fileID: 171960821}
   m_Layer: 0
   m_Name: haken
   m_TagString: MainCamera
@@ -796,7 +797,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 0.5
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 0.5
@@ -823,6 +824,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45de07af2fe9dca44bc0d890b7c52b0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &171960821
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 171960814}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 198313ce89662894cbf5627ec8f7044a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _speed: 5
 --- !u!1 &236942307
 GameObject:
   m_ObjectHideFlags: 0
@@ -2925,7 +2939,7 @@ RectTransform:
   - {fileID: 1848995707}
   - {fileID: 1763716172}
   - {fileID: 601649844}
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1682568536}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -3049,6 +3063,7 @@ Transform:
   - {fileID: 61408208}
   - {fileID: 1440920793}
   - {fileID: 1755339157}
+  - {fileID: 1636417458}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1755339154
@@ -4270,7 +4285,6 @@ SceneRoots:
   m_Roots:
   - {fileID: 519420032}
   - {fileID: 619394802}
-  - {fileID: 1636417458}
   - {fileID: 236942310}
   - {fileID: 1682568536}
   - {fileID: 1628924853}
