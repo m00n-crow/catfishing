@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+
+//gibt text für Preis und Menge aus bzw macht deren buttons sichtbar/clickbar
 public class ButtonInfo : MonoBehaviour
 {
  

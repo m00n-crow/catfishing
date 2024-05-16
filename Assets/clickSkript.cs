@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//sollte möglich machen, dass objekte die einen namen haben (bsp. haken, Fangbox) erkannt werden wenn angeklickt
 public class NewBehaviourScript : MonoBehaviour
 {
     public Vector3 mousePos;

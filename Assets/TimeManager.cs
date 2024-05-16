@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
 
+
+// Managed die Zeit die vergeht und greift dabei auf die Time UI zu (bzw die UI orientiert sich an den werten im manager)
 public class TimeManager : MonoBehaviour
 {
     // Start is called before the first frame update

@@ -4,6 +4,7 @@ using System.Net;
 using TMPro;
 using UnityEngine;
 
+//lässt es zu das die Zeit im Spiel angezeigt wird
 public class TimeUI : MonoBehaviour
 {
     public TextMeshProUGUI timeText;

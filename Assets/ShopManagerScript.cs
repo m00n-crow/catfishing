@@ -4,6 +4,9 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
+
+
+//managed quality und quantity im shop..
 public class ShopManagerScript : MonoBehaviour
 {
    public int[,] shopItems = new int[5, 5];

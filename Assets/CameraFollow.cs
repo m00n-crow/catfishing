@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+//die kamera sollte dem objekt folgen, an das sie angehängt ist (haken)
 public class CameraFollow : MonoBehaviour
 {
     // Start is called before the first frame update

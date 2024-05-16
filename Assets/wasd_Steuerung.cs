@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using UnityEngine;
 
+
+//steuert das bewegen des Spielers (haken) mit WASD
 public class wasd_Steuerung : MonoBehaviour
 {
     // Start is called before the first frame update
