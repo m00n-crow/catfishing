@@ -2,17 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class Throwable : MonoBehaviour
 {
+
+    /** Für Wurf: */  
     Vector3 throwVector;
     Rigidbody2D _rb;
     LineRenderer _lr;
     bool isDragging = false;
     bool hasThrown = false; // überprüft ob der Hacken schon geworfen wurde 
-    
-    //public bool wasdSteuerung = false;
-
-
 
     // Bestimmt wie schnell der Pfeil ausgemalt werden soll 
     public const int multiplier = 100; // MUSS ein int sein, warum auch immer, kann wegen const noch nicht geändert werden! ToDo
@@ -23,6 +22,12 @@ public class Throwable : MonoBehaviour
     // Bestimmt die Länge des Pfeiles -> Höherer Wert = kleinerer Pfeil 
     public const int arrowLength = 10; // Dies kann auch ein const bleiben
 
+
+    /** Für WASD Steuerung: */
+    public bool stuerungErlaubt = false; 
+
+    [SerializeField] 
+    private float _speed = 5f;
 
 
     void Awake()
@@ -56,16 +61,31 @@ public class Throwable : MonoBehaviour
 
         if (hasThrown && transform.position.y < -2) 
         {
-            // wasdSteuerung = true;
             DisableGravity();
         }
+
+        // Movenment: 
+        if (stuerungErlaubt)
+        {
+            CalculateMovement();
+        }
+    }
+
+    void CalculateMovement()
+    {
+        float horizontalInput = Input.GetAxis("Horizontal");
+        float verticalInput = Input.GetAxis("Vertical");
+
+        Vector3 direction = new Vector3(horizontalInput, verticalInput, 0);
+
+        transform.Translate(direction * _speed * Time.deltaTime);
     }
 
     void DisableGravity()
     {   
         _rb.gravityScale = 0.5f;
         _rb.velocity = new Vector2(_rb.velocity.y, 0f); // Setze die y-Komponente der Geschwindigkeit auf 0
-        
+        stuerungErlaubt = true; 
     }
 
     // bestimmt die Weite 
