@@ -1,12 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using JetBrains.Annotations;
 using UnityEngine;
 
 
 //steuert das bewegen des Spielers (haken) mit WASD
 public class wasd_Steuerung : MonoBehaviour
 {
+
+    
+    public Throwable throwable;
+
+
+    
+    
     // Start is called before the first frame update
 
     [SerializeField] 
@@ -15,13 +23,22 @@ public class wasd_Steuerung : MonoBehaviour
 
     void Awake()
     {
-       transform.position = new Vector3(0, 0, 0); 
+       // transform.position = new Vector3(0, 0, 0); 
+       
     }
 
     // Update is called once per frame
     void Update()
     {
+        
         CalculateMovement();
+
+        if (throwable != null)
+        {
+            //Debug.Log("Multiplier value: " + throwable.wasdSteuerung);
+
+            // HIER ENTSTEHT DER ERROR (drüber)
+        }
     }
 
     void CalculateMovement()
