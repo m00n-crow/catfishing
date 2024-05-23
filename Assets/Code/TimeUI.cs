@@ -13,6 +13,8 @@ public class TimeUI : MonoBehaviour
     // Start is called before the first frame update
     
     {
+        // Fill text element on game start
+        timeText.text = "Time: 10:00";
         TimeManager.OnMinuteChanged += UpdateTime;
         TimeManager.OnHourChanged += UpdateTime;
     }
@@ -25,7 +27,7 @@ public class TimeUI : MonoBehaviour
 
     private void UpdateTime()
     {
-        timeText.text = $"{TimeManager.Hour}:{TimeManager.Minute:00}";
+        timeText.text = $"Time: {TimeManager.Hour}:{TimeManager.Minute:00}";
     }
 
     // Update is called once per frame
