@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
 public class Throwable : MonoBehaviour
 {
 
@@ -10,35 +9,43 @@ public class Throwable : MonoBehaviour
     Vector3 throwVector;
     Rigidbody2D _rb;
     LineRenderer _lr;
+    Collider2D _collider;
     bool isDragging = false;
-    bool hasThrown = false; // überprüft ob der Hacken schon geworfen wurde 
+    bool hasThrown = false; // überprüft ob der Haken schon geworfen wurde 
+    bool onlyOnce = true; // Wird nur einmal ausgeführt, um die maximale y-Position zu bestimmen
+    public bool stuerungErlaubt = false; // Erlaubt die Steuerung nachdem der Haken geworfen wurdeq
+    bool colliderSmall = true; // Variable für die Collider-Größe
 
-    // Bestimmt wie schnell der Pfeil ausgemalt werden soll 
-    public const int multiplier = 100; // MUSS ein int sein, warum auch immer, kann wegen const noch nicht geändert werden! ToDo
-    
-    // Bestimmt wie schnell der Pfeil maximal geworfen werden soll  
-    public const float maxThrowDistance = 2; // Muss wieder ein const sein, sonst wird es überschrieben!
+    /** AB HIER: Konstanten für den Haken, welche geändert werden können um die Eigenschaften des Hakens zu verändern: */
+    public const int multiplier = 100;  // Bestimmt wie schnell der Pfeil ausgemalt werden soll 
+    public const float maxThrowDistance = 2;  // Bestimmt wie schnell der Haken maximal geworfen werden soll  
+    public const int arrowLength = 10;  // Bestimmt die Länge des Pfeiles -> Höherer Wert = kleinerer Pfeil
 
-    // Bestimmt die Länge des Pfeiles -> Höherer Wert = kleinerer Pfeil 
-    public const int arrowLength = 10; // Dies kann auch ein const bleiben
-
-
-    /** Für WASD Steuerung: */
-    public bool stuerungErlaubt = false; 
+    // Für WASD Steuerung: 
+    private float _maxYPosition;  // Höchster Punkt für das Movement
+    private float _startXPosition;  // Startpunkt der x-Position
+    private const float maxHorizontalDistance = 10f;  // Maximale horizontale Bewegungsweite
 
     [SerializeField] 
-    private float _speed = 5f;
-
+    private float _baseSpeed = 5f;  // Basisgeschwindigkeit
+    [SerializeField] 
+    private float _minSpeedFactor = 0.1f;  // Minimale Geschwindigkeitsfaktor
+    private float originalColliderRadius;  // Ursprünglicher Radius des Colliders
 
     void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
         _lr = GetComponent<LineRenderer>();
+        _collider = GetComponent<Collider2D>();
+        if (_collider is CircleCollider2D circleCollider) // geht irgendwie nicht ohne if 
+        {
+            originalColliderRadius = circleCollider.radius;
+        }
     }
 
     void OnMouseDown()
     {
-        if (hasThrown) return; // Wenn der Hacken schon geworfen wurde, dann wird nichts gemacht
+        if (hasThrown) return;  // Wenn der Haken schon geworfen wurde, dann wird nichts gemacht
         isDragging = true;
         CalculateThrowVector();
         SetArrow();
@@ -52,67 +59,116 @@ public class Throwable : MonoBehaviour
     }
 
     void Update()
-    {
+    {   
+        // Für das werfen zuständig 
         if (isDragging && !hasThrown)
         {
             CalculateThrowVector();
             SetArrow();
         }
 
+        // Aktiviert die Physik des Wassers, sobald der Haken eine gewisse Höhe erreicht hat 
         if (hasThrown && transform.position.y < -2) 
         {
             DisableGravity();
         }
 
-        // Movenment: 
+        // Bewegung: 
         if (stuerungErlaubt)
         {
             CalculateMovement();
         }
+
+        // Collider vergrößern, wenn die Leertaste gedrückt wird 
+        if (hasThrown && transform.position.y < -2 && Input.GetKeyDown(KeyCode.Space) && colliderSmall)
+        {
+            colliderSmall = false;
+            ResizeCollider(3.0f); 
+            StartCoroutine(ResetCollider(1.0f));
+        }
     }
 
+    IEnumerator ResetCollider(float time) 
+    {
+        yield return new WaitForSeconds(time);
+        CircleCollider2D circleCollider = (CircleCollider2D)_collider;
+        circleCollider.radius = originalColliderRadius;
+        colliderSmall = true;
+    }
+    
+    void ResizeCollider(float factor) // Neue Methode
+    {
+        CircleCollider2D circleCollider = (CircleCollider2D)_collider;
+        circleCollider.radius *= factor;
+    }
     void CalculateMovement()
     {
         float horizontalInput = Input.GetAxis("Horizontal");
         float verticalInput = Input.GetAxis("Vertical");
 
         Vector3 direction = new Vector3(horizontalInput, verticalInput, 0);
+        float distanceFromStart = Mathf.Abs(transform.position.x - _startXPosition);
 
-        transform.Translate(direction * _speed * Time.deltaTime);
+        // Bestimme die Geschwindigkeit abhängig von der Bewegungsrichtung
+        float speed = _baseSpeed;
+        if ((horizontalInput > 0 && transform.position.x > _startXPosition) || (horizontalInput < 0 && transform.position.x < _startXPosition))
+        {
+            // Langsamer werden, je weiter man zur Grenze geht
+            float speedFactor = Mathf.Lerp(1.0f, _minSpeedFactor, distanceFromStart / maxHorizontalDistance);
+            speed *= speedFactor;
+        }
+
+        // Neue Position mit der berechneten Geschwindigkeit
+        Vector3 newPosition = transform.position + direction * speed * Time.deltaTime;
+
+        // Überprüfen, ob die neue Position den maximalen y-Wert überschreitet
+        if (newPosition.y > _maxYPosition)
+        {
+            newPosition.y = _maxYPosition;
+        }
+
+        // Überprüfen, ob die neue Position die maximale horizontale Distanz überschreitet
+        if (Mathf.Abs(newPosition.x - _startXPosition) > maxHorizontalDistance)
+        {
+            newPosition.x = _startXPosition + Mathf.Sign(newPosition.x - _startXPosition) * maxHorizontalDistance;
+        }
+
+        transform.position = newPosition;
     }
 
     void DisableGravity()
     {   
         _rb.gravityScale = 0.5f;
-        _rb.velocity = new Vector2(_rb.velocity.y, 0f); // Setze die y-Komponente der Geschwindigkeit auf 0
-        stuerungErlaubt = true; 
+        _rb.velocity = new Vector2(_rb.velocity.y, 0f);  // Setze die y-Komponente der Geschwindigkeit auf 0 (Wurf ausstellen)
+        if (onlyOnce) 
+        {
+            stuerungErlaubt = true; 
+            _maxYPosition = transform.position.y;  // Speichere die aktuelle y-Position als Maximum
+            _startXPosition = transform.position.x;  // Speichere die aktuelle x-Position als Startpunkt
+            onlyOnce = false;
+        }
     }
 
-    // bestimmt die Weite 
     void CalculateThrowVector()
     {
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        mousePos.z = 0; // Ensure z value is zero for 2D calculations
+        mousePos.z = 0;  // Ensure z value is zero for 2D calculations
         Vector2 distance = mousePos - transform.position;
         
-        Debug.Log("maxThrowDistance value: " + maxThrowDistance);
         if (distance.magnitude > maxThrowDistance)
         {
-                distance = distance.normalized * maxThrowDistance;
+            distance = distance.normalized * maxThrowDistance;
         }
 
         throwVector = -distance * multiplier; 
-        
-        Debug.Log("Multiplier value: " + multiplier);
-        //throwVector = -distance * multiplier; // Increase factor for stronger throws
     }
 
-    // bestimmt die länge des Pfeiles 
+    // bestimmt die länge des Hakens
     void SetArrow()
     {
         _lr.positionCount = 2;
-        _lr.SetPosition(0, transform.position); // Start of the arrow at the object's position
-        _lr.SetPosition(1, transform.position + throwVector / arrowLength); // Ende des Vektors, + vektor um entgegengesetzt
+        _lr.SetPosition(0, transform.position);  // Start of the arrow at the object's position
+        _lr.SetPosition(1, transform.position + throwVector / arrowLength);  // Ende des Vektors, + vektor um entgegengesetzt
         _lr.enabled = true;
     }
 
@@ -123,10 +179,10 @@ public class Throwable : MonoBehaviour
 
     public void Throw()
     {
-        if (hasThrown) return; // Prevent further interactions
+        if (hasThrown) return;  // Prevent further interactions
         _rb.AddForce(throwVector);
-        _rb.gravityScale = 0.1f; // Enable gravity 
+        _rb.gravityScale = 0.1f;  // Enable gravity 
 
-        hasThrown = true; // Mark als geworfen 
+        hasThrown = true;  // Mark als geworfen 
     }
 }
