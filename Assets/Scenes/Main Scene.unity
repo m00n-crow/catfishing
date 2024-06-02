@@ -2619,6 +2619,73 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 9.599999
+--- !u!1 &1357316314
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1357316315}
+  - component: {fileID: 1357316316}
+  m_Layer: 0
+  m_Name: FishSpawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1357316315
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1357316314}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1357316316
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1357316314}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 761a98c424a4ef24f8daca35fcd4f451, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  time: 1.8
+  maxFish: 10
+  allTheFishies:
+  - {fileID: 4310816828733388316, guid: c11d31df88f170249a172830a68b2e73, type: 3}
+  - {fileID: 4310816828733388316, guid: 813f912328b4e2146aedb28935ca4767, type: 3}
+  - {fileID: 4310816828733388316, guid: 4cd9dfd92678c824d8e84a47d2d91d17, type: 3}
+  - {fileID: 4310816828733388316, guid: 0e326bf83c4927c4c854405247a7d97b, type: 3}
+  - {fileID: 4310816828733388316, guid: 5feae2073932c82478f7e714a893a572, type: 3}
+  - {fileID: 4310816828733388316, guid: b16d3e9d9923f8f4eb59e48f36010e2b, type: 3}
+  - {fileID: 4310816828733388316, guid: da557ec7206f8c84bab19b92bcb34048, type: 3}
+  - {fileID: 4310816828733388316, guid: 85f91c1c9b7147645a8c18129a2a6466, type: 3}
+  - {fileID: 4310816828733388316, guid: dc3c6f5c0f1aafe44a6a62ed07176f91, type: 3}
+  - {fileID: 4310816828733388316, guid: 703b8a7cdaea13e42a9d273ed49f4919, type: 3}
+  - {fileID: 4310816828733388316, guid: 56b2b7b7143c3f047b5e1638ba3b8003, type: 3}
+  - {fileID: 4310816828733388316, guid: da3831c86a9038146bdcc29ce1b248c8, type: 3}
+  - {fileID: 4310816828733388316, guid: 6979cef0fa954274989e24c198a8e343, type: 3}
+  - {fileID: 4310816828733388316, guid: 2ba26143fae8667428a517aa5a6a9155, type: 3}
+  - {fileID: 4310816828733388316, guid: 85b4efbf09fb17a4197323f00d3552a6, type: 3}
+  - {fileID: 4310816828733388316, guid: de64278a6a8128d4e8e680c2bfe9f7ef, type: 3}
+  - {fileID: 4310816828733388316, guid: fe61ba9171bee3a4d90574cab26df88c, type: 3}
+  - {fileID: 4310816828733388316, guid: 9d64dfafece571e41aec1db7acc33640, type: 3}
+  - {fileID: 4310816828733388316, guid: e34231210fc9dfa479e44c740b0edbf0, type: 3}
+  - {fileID: 4310816828733388316, guid: 3dde282bdb0c74b48bb7d67f83550a5f, type: 3}
 --- !u!1 &1363158601
 GameObject:
   m_ObjectHideFlags: 0
@@ -4139,6 +4206,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 642769f1c0b1c494b9ba693b876c254b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hour: 0
 --- !u!4 &2112974708
 Transform:
   m_ObjectHideFlags: 0
@@ -4401,4 +4469,5 @@ SceneRoots:
   - {fileID: 1363158605}
   - {fileID: 1636417458}
   - {fileID: 1682568536}
+  - {fileID: 1357316315}
   - {fileID: 1628924853}

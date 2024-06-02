@@ -14,6 +14,7 @@ public class TimeManager : MonoBehaviour
     
     public static int Minute { get; private set; }
     public static int Hour { get; private set; }
+    public int hour;
 
     private float minuteToRealTime = 5.0f;
     private float timer;
@@ -28,6 +29,7 @@ public class TimeManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        hour = Hour;
         timer -= Time.deltaTime;
         if(timer <= 0)
         {
