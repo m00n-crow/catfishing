@@ -4,11 +4,10 @@ using UnityEngine;
 
 public class spawnFishies : MonoBehaviour
 {
-    [Range(0,24)]
-    public float time = 2f;
+    private float time = 2f;
 
     public float maxFish = 5f;
-
+    public BoxCollider2D spawnArea;
     private List<GameObject> swimmingFishies;
     public List<GameObject> allTheFishies;
 
@@ -17,7 +16,7 @@ public class spawnFishies : MonoBehaviour
     private void Start()
     {
         swimmingFishies = new List<GameObject>();
-
+        spawnArea = GetComponent<BoxCollider2D>();
     }
 
     // Update is called once per frame
@@ -29,7 +28,20 @@ public class spawnFishies : MonoBehaviour
             spawnAFish();
         }
     }
-   
+    void instantiate()
+    {
+        // Get the bounds of the Box Collider
+        Bounds bounds = spawnArea.bounds;
+
+        // Generate a random position within the bounds
+        float x = Random.Range(bounds.min.x, bounds.max.x);
+        float y = Random.Range(bounds.min.y, bounds.max.y);
+        Vector2 spawnPosition = new Vector2(x, y);
+
+        // Instantiate the object at the random position
+        GameObject instantiatedFish = Instantiate(newFish, spawnPosition, Quaternion.identity);
+        swimmingFishies.Add(instantiatedFish);
+    }
     void spawnAFish()
     {
         randomizedFish = allTheFishies[Random.Range(0, allTheFishies.Count)];
@@ -44,8 +56,7 @@ public class spawnFishies : MonoBehaviour
             if (randomizedFish.GetComponent<fishScript>().time1)
             {
                 newFish = randomizedFish;
-                GameObject instantiatedFish = Instantiate(newFish);
-                swimmingFishies.Add(instantiatedFish);
+                instantiate();
             }
             else spawnAFish();
         }
@@ -54,8 +65,7 @@ public class spawnFishies : MonoBehaviour
             if (randomizedFish.GetComponent<fishScript>().time2)
             {
                 newFish = randomizedFish;
-                GameObject instantiatedFish = Instantiate(newFish);
-                swimmingFishies.Add(instantiatedFish);
+                instantiate();
             }
             else spawnAFish();
         }
@@ -64,8 +74,7 @@ public class spawnFishies : MonoBehaviour
             if (randomizedFish.GetComponent<fishScript>().time3)
             {
                 newFish = randomizedFish;
-                GameObject instantiatedFish = Instantiate(newFish);
-                swimmingFishies.Add(instantiatedFish);
+                instantiate();
             }
             else spawnAFish();
         }
@@ -74,8 +83,7 @@ public class spawnFishies : MonoBehaviour
             if (randomizedFish.GetComponent<fishScript>().time4)
             {
                 newFish = randomizedFish;
-                GameObject instantiatedFish = Instantiate(newFish);
-                swimmingFishies.Add(instantiatedFish);
+                instantiate();
             }
             else spawnAFish();
         }
@@ -84,8 +92,7 @@ public class spawnFishies : MonoBehaviour
             if (randomizedFish.GetComponent<fishScript>().time5)
             {
                 newFish = randomizedFish;
-                GameObject instantiatedFish = Instantiate(newFish);
-                swimmingFishies.Add(instantiatedFish);
+                instantiate();
             }
             else spawnAFish();
         }
@@ -94,8 +101,7 @@ public class spawnFishies : MonoBehaviour
             if (randomizedFish.GetComponent<fishScript>().time6)
             {
                 newFish = randomizedFish;
-                GameObject instantiatedFish = Instantiate(newFish);
-                swimmingFishies.Add(instantiatedFish);
+                instantiate();
             }
             else spawnAFish();
         }
@@ -104,8 +110,7 @@ public class spawnFishies : MonoBehaviour
             if (randomizedFish.GetComponent<fishScript>().time7)
             {
                 newFish = randomizedFish;
-                GameObject instantiatedFish = Instantiate(newFish);
-                swimmingFishies.Add(instantiatedFish);
+                instantiate();
             }
             else spawnAFish();
         }
@@ -114,8 +119,7 @@ public class spawnFishies : MonoBehaviour
             if (randomizedFish.GetComponent<fishScript>().time8)
             {
                 newFish = randomizedFish;
-                GameObject instantiatedFish = Instantiate(newFish);
-                swimmingFishies.Add(instantiatedFish);
+                instantiate();
             }
             else spawnAFish();
         }
@@ -124,8 +128,7 @@ public class spawnFishies : MonoBehaviour
             if (randomizedFish.GetComponent<fishScript>().time9)
             {
                 newFish = randomizedFish;
-                GameObject instantiatedFish = Instantiate(newFish);
-                swimmingFishies.Add(instantiatedFish);
+                instantiate();
             }
             else spawnAFish();
         }
@@ -134,8 +137,7 @@ public class spawnFishies : MonoBehaviour
             if (randomizedFish.GetComponent<fishScript>().time10)
             {
                 newFish = randomizedFish;
-                GameObject instantiatedFish = Instantiate(newFish);
-                swimmingFishies.Add(instantiatedFish);
+                instantiate();
             }
             else spawnAFish();
         }
@@ -144,8 +146,7 @@ public class spawnFishies : MonoBehaviour
             if (randomizedFish.GetComponent<fishScript>().time11)
             {
                 newFish = randomizedFish;
-                GameObject instantiatedFish = Instantiate(newFish);
-                swimmingFishies.Add(instantiatedFish);
+                instantiate();
             }
             else spawnAFish();
         }
@@ -154,8 +155,7 @@ public class spawnFishies : MonoBehaviour
             if (randomizedFish.GetComponent<fishScript>().time12)
             {
                 newFish = randomizedFish;
-                GameObject instantiatedFish = Instantiate(newFish);
-                swimmingFishies.Add(instantiatedFish);
+                instantiate();
             }
             else spawnAFish();
         }
@@ -164,8 +164,7 @@ public class spawnFishies : MonoBehaviour
             if (randomizedFish.GetComponent<fishScript>().time13)
             {
                 newFish = randomizedFish;
-                GameObject instantiatedFish = Instantiate(newFish);
-                swimmingFishies.Add(instantiatedFish);
+                instantiate();
             }
             else spawnAFish();
         }
@@ -174,8 +173,7 @@ public class spawnFishies : MonoBehaviour
             if (randomizedFish.GetComponent<fishScript>().time14)
             {
                 newFish = randomizedFish;
-                GameObject instantiatedFish = Instantiate(newFish);
-                swimmingFishies.Add(instantiatedFish);
+                instantiate();
             }
             else spawnAFish();
         }
@@ -184,8 +182,7 @@ public class spawnFishies : MonoBehaviour
             if (randomizedFish.GetComponent<fishScript>().time15)
             {
                 newFish = randomizedFish;
-                GameObject instantiatedFish = Instantiate(newFish);
-                swimmingFishies.Add(instantiatedFish);
+                instantiate();
             }
             else spawnAFish();
         }
@@ -194,8 +191,7 @@ public class spawnFishies : MonoBehaviour
             if (randomizedFish.GetComponent<fishScript>().time16)
             {
                 newFish = randomizedFish;
-                GameObject instantiatedFish = Instantiate(newFish);
-                swimmingFishies.Add(instantiatedFish);
+                instantiate();
             }
             else spawnAFish();
         }
@@ -204,8 +200,7 @@ public class spawnFishies : MonoBehaviour
             if (randomizedFish.GetComponent<fishScript>().time17)
             {
                 newFish = randomizedFish;
-                GameObject instantiatedFish = Instantiate(newFish);
-                swimmingFishies.Add(instantiatedFish);
+                instantiate();
             }
             else spawnAFish();
         }
@@ -214,8 +209,7 @@ public class spawnFishies : MonoBehaviour
             if (randomizedFish.GetComponent<fishScript>().time18)
             {
                 newFish = randomizedFish;
-                GameObject instantiatedFish = Instantiate(newFish);
-                swimmingFishies.Add(instantiatedFish);
+                instantiate();
             }
             else spawnAFish();
         }
@@ -224,8 +218,7 @@ public class spawnFishies : MonoBehaviour
             if (randomizedFish.GetComponent<fishScript>().time19)
             {
                 newFish = randomizedFish;
-                GameObject instantiatedFish = Instantiate(newFish);
-                swimmingFishies.Add(instantiatedFish);
+                instantiate();
             }
             else spawnAFish();
         }
@@ -234,8 +227,7 @@ public class spawnFishies : MonoBehaviour
             if (randomizedFish.GetComponent<fishScript>().time20)
             {
                 newFish = randomizedFish;
-                GameObject instantiatedFish = Instantiate(newFish);
-                swimmingFishies.Add(instantiatedFish);
+                instantiate();
             }
             else spawnAFish();
         }
@@ -244,8 +236,7 @@ public class spawnFishies : MonoBehaviour
             if (randomizedFish.GetComponent<fishScript>().time21)
             {
                 newFish = randomizedFish;
-                GameObject instantiatedFish = Instantiate(newFish);
-                swimmingFishies.Add(instantiatedFish);
+                instantiate();
             }
             else spawnAFish();
         }
@@ -254,8 +245,7 @@ public class spawnFishies : MonoBehaviour
             if (randomizedFish.GetComponent<fishScript>().time22)
             {
                 newFish = randomizedFish;
-                GameObject instantiatedFish = Instantiate(newFish);
-                swimmingFishies.Add(instantiatedFish);
+                instantiate();
             }
             else spawnAFish();
         }
@@ -264,8 +254,7 @@ public class spawnFishies : MonoBehaviour
             if (randomizedFish.GetComponent<fishScript>().time23)
             {
                 newFish = randomizedFish;
-                GameObject instantiatedFish = Instantiate(newFish);
-                swimmingFishies.Add(instantiatedFish);
+                instantiate();
             }
             else spawnAFish();
         }
