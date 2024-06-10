@@ -11,6 +11,7 @@ public class Schnur : MonoBehaviour
     public Transform Haken;
 
     private LineRenderer LineRenderer;
+   //  public Color lineColor = Color.white;
 
     void Start()
     {
@@ -20,7 +21,11 @@ public class Schnur : MonoBehaviour
 
     void Update()
     {
-        LineRenderer.SetPosition(0, Angel.position);
-        LineRenderer.SetPosition(1, Haken.position);
+        Vector3 startPosition = new Vector3(-3.1f, -0.1f, 0f);
+        Vector3 endPosition = new Vector3(Haken.position.x, Haken.position.y, 0);
+
+        LineRenderer.SetPosition(0, startPosition);
+        LineRenderer.SetPosition(1, endPosition);
+
     }
 }
