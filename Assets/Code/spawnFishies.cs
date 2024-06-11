@@ -260,6 +260,10 @@ public class spawnFishies : MonoBehaviour
         }
         
     }
+// Public method to get the spawn bounds
+    public Bounds GetSpawnBounds()
+    {
 
-  
+        return spawnArea.bounds;
+    }   
 }
