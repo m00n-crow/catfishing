@@ -10,12 +10,17 @@ public class FishMovement : MonoBehaviour
     private Vector2 direction; // Bewegungsrichtung
     private Bounds bounds; // Begrenzung des Bereichs
 
+    // Border definieren: 
+    private float border_min_x = 0;
+    private float border_max_x = 100f;
+    private float border_min_y = -100f;
+    private float border_max_y = -2f;
+
     void Start()
     {
         // Get the spawnFishies component and initialize the movement bounds
-        var spawnFishiesScript = fishSpawnerObject.GetComponent<spawnFishies>();
-        bounds = spawnFishiesScript.GetSpawnBounds();
-
+        //var spawnFishiesScript = fishSpawnerObject.GetComponent<spawnFishies>();
+        
         // Zufällige Anfangsrichtung
         direction = GetRandomDirection();
     }
@@ -40,18 +45,18 @@ public class FishMovement : MonoBehaviour
         Vector2 position = transform.position;
 
         // Wenn der Fisch den Rand des Bereichs erreicht, Richtung ändern
-        if (position.x < bounds.min.x || position.x > bounds.max.x)
+        if (position.x < border_min_x || position.x > border_max_x)
         {
             direction.x = -direction.x;
         }
-        if (position.y < bounds.min.y || position.y > bounds.max.y)
+        if (position.y < border_min_y || position.y > border_max_y)
         {
             direction.y = -direction.y;
         }
 
         // Sicherstellen, dass der Fisch innerhalb der Begrenzung bleibt
-        position.x = Mathf.Clamp(position.x, bounds.min.x, bounds.max.x);
-        position.y = Mathf.Clamp(position.y, bounds.min.y, bounds.max.y);
+        position.x = Mathf.Clamp(position.x, border_min_x, border_max_x);
+        position.y = Mathf.Clamp(position.y, border_min_y, border_max_y);
         transform.position = position;
     }
 

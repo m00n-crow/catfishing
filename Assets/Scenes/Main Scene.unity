@@ -581,7 +581,7 @@ Transform:
   m_GameObject: {fileID: 171960814}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 8.21, y: 1.86, z: -0.0013607272}
+  m_LocalPosition: {x: 3.67, y: 2.55, z: -0.0013607272}
   m_LocalScale: {x: 0.113166764, y: 0.11199062, z: 0.080761}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2826,7 +2826,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34ca63e8fceef2744bdea2dc6735e76a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnFishiesObject: {fileID: 0}
   speed: 2
 --- !u!1 &1440920791
 GameObject:
