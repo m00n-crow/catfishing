@@ -166,5 +166,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34ca63e8fceef2744bdea2dc6735e76a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnArea: {fileID: 0}
-  speed: 2
+  speed: 0.75
+  borderMinY: -13
+  borderMaxY: -4
+  borderMinX: 0
+  borderMaxX: 100

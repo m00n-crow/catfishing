@@ -4,23 +4,20 @@ using UnityEngine;
 
 public class FishMovement : MonoBehaviour
 {
-    
     public float speed = 2f; // Geschwindigkeit der Fische
 
-    private Vector2 direction; // Bewegungsrichtung
-    private Bounds bounds; // Begrenzung des Bereichs
+    // Spezifische Höhenbereiche für jeden Fisch
+    public float borderMinY = -100f;
+    public float borderMaxY = -2f;
 
-    // Border definieren: 
-    private float border_min_x = 0;
-    private float border_max_x = 100f;
-    private float border_min_y = -100f;
-    private float border_max_y = -2f;
+    // Horizontale Grenzen (falls diese auch variieren sollen, können sie ebenfalls individuell gemacht werden)
+    public float borderMinX = 0;
+    public float borderMaxX = 100f;
+
+    private Vector2 direction; // Bewegungsrichtung
 
     void Start()
     {
-        // Get the spawnFishies component and initialize the movement bounds
-        //var spawnFishiesScript = fishSpawnerObject.GetComponent<spawnFishies>();
-        
         // Zufällige Anfangsrichtung
         direction = GetRandomDirection();
     }
@@ -45,18 +42,18 @@ public class FishMovement : MonoBehaviour
         Vector2 position = transform.position;
 
         // Wenn der Fisch den Rand des Bereichs erreicht, Richtung ändern
-        if (position.x < border_min_x || position.x > border_max_x)
+        if (position.x < borderMinX || position.x > borderMaxX)
         {
             direction.x = -direction.x;
         }
-        if (position.y < border_min_y || position.y > border_max_y)
+        if (position.y < borderMinY || position.y > borderMaxY)
         {
             direction.y = -direction.y;
         }
 
         // Sicherstellen, dass der Fisch innerhalb der Begrenzung bleibt
-        position.x = Mathf.Clamp(position.x, border_min_x, border_max_x);
-        position.y = Mathf.Clamp(position.y, border_min_y, border_max_y);
+        position.x = Mathf.Clamp(position.x, borderMinX, borderMaxX);
+        position.y = Mathf.Clamp(position.y, borderMinY, borderMaxY);
         transform.position = position;
     }
 
