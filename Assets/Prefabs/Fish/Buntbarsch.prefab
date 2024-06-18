@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7516970010989693908}
   - component: {fileID: 6880803976901795303}
+  - component: {fileID: 5920186262939362090}
   m_Layer: 0
   m_Name: IMG_9984
   m_TagString: Untagged
@@ -84,6 +85,41 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!58 &5920186262939362090
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2323974082775909879}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -7.63, y: 2.8}
+  serializedVersion: 2
+  m_Radius: 8.08
 --- !u!1 &4310816828733388316
 GameObject:
   m_ObjectHideFlags: 0
@@ -170,4 +206,4 @@ MonoBehaviour:
   borderMinY: -20
   borderMaxY: -4
   borderMinX: 0
-  borderMaxX: 100
+  borderMaxX: 38

@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - Event
+  - Hook
+  - Fish
   layers:
   - Default
   - TransparentFX
