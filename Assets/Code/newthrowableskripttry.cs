@@ -13,6 +13,7 @@ public class newthrowableskripttry : MonoBehaviour
     bool isDragging = false;
     bool hasThrown = false; // Überprüft ob der Haken schon geworfen wurde
     bool onlyOnce = true; // Wird nur einmal ausgeführt, um die maximale y-Position zu bestimmen
+    bool hasfisch = false;
     public bool stuerungErlaubt = false; // Erlaubt die Steuerung nachdem der Haken geworfen wurde
     bool colliderSmall = true; // Variable für die Collider-Größe
 
@@ -103,6 +104,11 @@ public class newthrowableskripttry : MonoBehaviour
         {
             CatchFish();
         }
+
+        if (hasfisch)
+        {
+           DisableGravityCompletely();
+        }
     }
 
     IEnumerator ResetCollider(float time)
@@ -140,7 +146,7 @@ public class newthrowableskripttry : MonoBehaviour
         Vector3 newPosition = transform.position + direction * speed * Time.deltaTime;
 
         // Überprüfen, ob die neue Position den maximalen y-Wert überschreitet
-        if (newPosition.y > _maxYPosition)
+        if ((newPosition.y > _maxYPosition && !hasfisch) || (hasfisch && newPosition.x <2.0f && newPosition.x >4.25f))
         {
             newPosition.y = _maxYPosition;
         }
@@ -167,6 +173,11 @@ public class newthrowableskripttry : MonoBehaviour
         }
     }
 
+    void DisableGravityCompletely()
+    {
+        _rb.gravityScale = 0f;
+        stuerungErlaubt = true;
+    }
     void CalculateThrowVector()
     {
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -256,6 +267,7 @@ public class newthrowableskripttry : MonoBehaviour
         hasThrown = false;
         isDragging = false;
         onlyOnce = true;
+        hasfisch = true;
         stuerungErlaubt = false;
         colliderSmall = true;
         CircleCollider2D circleCollider = (CircleCollider2D)_collider;
