@@ -2,16 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FishScript : MonoBehaviour
+public class swimmingtowards : MonoBehaviour
 {
     public float speed = 2.0f;
-    private HookScript hookScript;
+    private haken_skript_try haken_skript_try;
 
     void Update()
     {
-        if (hookScript != null && hookScript.isFishNear)
+        if (haken_skript_try != null && haken_skript_try.isFishNear)
         {
-            Vector3 direction = (hookScript.transform.position - transform.position).normalized;
+            Vector3 direction = (haken_skript_try.transform.position - transform.position).normalized;
             transform.position += direction * speed * Time.deltaTime;
         }
     }
@@ -20,7 +20,7 @@ public class FishScript : MonoBehaviour
     {
         if (other.CompareTag("Hook"))
         {
-            hookScript = other.GetComponent<HookScript>();
+            haken_skript_try = other.GetComponent<haken_skript_try>();
         }
     }
 
@@ -28,7 +28,7 @@ public class FishScript : MonoBehaviour
     {
         if (other.CompareTag("Hook"))
         {
-            hookScript = null;
+            haken_skript_try = null;
         }
     }
 }

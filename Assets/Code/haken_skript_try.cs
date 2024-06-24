@@ -3,16 +3,26 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class haken_skript_try : MonoBehaviour
+
 {
-    // Start is called before the first frame update
-    void Start()
+    public bool isFishNear = false;
+    public GameObject nearestFish;
+
+    void OnTriggerEnter2D(Collider2D other)
     {
-        
+        if (other.CompareTag("Fish"))
+        {
+            isFishNear = true;
+            nearestFish = other.gameObject;
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    void OnTriggerExit2D(Collider2D other)
     {
-        
+        if (other.CompareTag("Fish"))
+        {
+            isFishNear = false;
+            nearestFish = null;
+        }
     }
 }

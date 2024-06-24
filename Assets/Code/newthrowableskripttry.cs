@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class newthrowableskripttry : MonoBehaviour
-
 {
     // Für Wurf:
     Vector3 throwVector;
@@ -15,6 +14,7 @@ public class newthrowableskripttry : MonoBehaviour
     bool onlyOnce = true; // Wird nur einmal ausgeführt, um die maximale y-Position zu bestimmen
     bool hasfisch = false;
     public bool stuerungErlaubt = false; // Erlaubt die Steuerung nachdem der Haken geworfen wurde
+    bool neustart = false;
     bool colliderSmall = true; // Variable für die Collider-Größe
 
     // Konstanten für den Haken, welche geändert werden können, um die Eigenschaften des Hakens zu verändern:
@@ -38,11 +38,15 @@ public class newthrowableskripttry : MonoBehaviour
     public bool isFishNear = false;
     public GameObject nearestFish;
 
+    // Ausgangsposition:
+    private Vector3 ausgangsPosition;
+
     void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
         _lr = GetComponent<LineRenderer>();
         _collider = GetComponent<Collider2D>();
+        ausgangsPosition = transform.position; // Initialisiere die Ausgangsposition hier
         if (_collider is CircleCollider2D circleCollider) // geht irgendwie nicht ohne if
         {
             originalColliderRadius = circleCollider.radius;
@@ -52,6 +56,7 @@ public class newthrowableskripttry : MonoBehaviour
     void OnMouseDown()
     {
         if (hasThrown) return; // Wenn der Haken schon geworfen wurde, dann wird nichts gemacht
+        neustart = false;
         isDragging = true;
         CalculateThrowVector();
         SetArrow();
@@ -105,10 +110,11 @@ public class newthrowableskripttry : MonoBehaviour
             CatchFish();
         }
 
-        if (hasfisch)
+        if (hasfisch || neustart)
         {
            DisableGravityCompletely();
         }
+
     }
 
     IEnumerator ResetCollider(float time)
@@ -146,7 +152,7 @@ public class newthrowableskripttry : MonoBehaviour
         Vector3 newPosition = transform.position + direction * speed * Time.deltaTime;
 
         // Überprüfen, ob die neue Position den maximalen y-Wert überschreitet
-        if ((newPosition.y > _maxYPosition && !hasfisch) || (hasfisch && newPosition.x <2.0f && newPosition.x >4.25f))
+        if ((newPosition.y > _maxYPosition && !hasfisch))
         {
             newPosition.y = _maxYPosition;
         }
@@ -176,7 +182,7 @@ public class newthrowableskripttry : MonoBehaviour
     void DisableGravityCompletely()
     {
         _rb.gravityScale = 0f;
-        stuerungErlaubt = true;
+        stuerungErlaubt = false;
     }
     void CalculateThrowVector()
     {
@@ -249,8 +255,9 @@ public class newthrowableskripttry : MonoBehaviour
 
     IEnumerator RetrieveHookWithFish()
     {
+        hasfisch = true;
         Vector3 startPosition = transform.position;
-        Vector3 endPosition = new Vector3(_startXPosition, _maxYPosition, transform.position.z);
+        Vector3 endPosition = ausgangsPosition; // Verwende die Instanzvariable hier
         float journeyLength = Vector3.Distance(startPosition, endPosition);
         float startTime = Time.time;
 
@@ -267,7 +274,6 @@ public class newthrowableskripttry : MonoBehaviour
         hasThrown = false;
         isDragging = false;
         onlyOnce = true;
-        hasfisch = true;
         stuerungErlaubt = false;
         colliderSmall = true;
         CircleCollider2D circleCollider = (CircleCollider2D)_collider;
@@ -282,5 +288,33 @@ public class newthrowableskripttry : MonoBehaviour
         }
 
         Debug.Log("Haken eingeholt");
+        yield return new WaitForSeconds(2); 
+        ResetScript();
+    }
+
+    void ResetScript()
+    {
+        hasThrown = false;
+        isDragging = false;
+        onlyOnce = true;
+        hasfisch = false;
+        neustart = true;
+        stuerungErlaubt = false;
+        colliderSmall = true;
+
+        _rb.gravityScale = 1.0f; // Setzen Sie die Standard-Gravitation zurück
+        _rb.velocity = Vector2.zero; // Setzen Sie die Geschwindigkeit zurück
+        transform.position = ausgangsPosition; // Setzen Sie die Position zurück
+
+        CircleCollider2D circleCollider = (CircleCollider2D)_collider;
+        circleCollider.radius = originalColliderRadius;
+
+        if (nearestFish != null)
+        {
+            Destroy(nearestFish); // Optional: Zerstöre den Fisch
+            nearestFish = null;
+        }
+
+        // Entfernen Sie ggf. andere notwendige Rücksetzungen
     }
 }

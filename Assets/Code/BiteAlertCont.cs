@@ -9,17 +9,19 @@ public class BiteAlertController : MonoBehaviour
 
     void Start()
     {
-        // Sicherstellen, dass der Alert zunächst nicht sichtbar ist
+        // der Alert ist erst nicht sichtbar 
         biteAlert.SetActive(false);
     }
 
     public void ShowAlert()
     {
         biteAlert.SetActive(true);
+    
     }
 
     public void HideAlert()
     {
         biteAlert.SetActive(false);
+        
     }
 }

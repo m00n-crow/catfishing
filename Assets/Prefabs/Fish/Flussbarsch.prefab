@@ -11,7 +11,8 @@ GameObject:
   - component: {fileID: 7516970010989693908}
   - component: {fileID: 6880803976901795303}
   - component: {fileID: 626780083941535694}
-  - component: {fileID: 6080882595007377749}
+  - component: {fileID: 5293732680576328672}
+  - component: {fileID: 1577710539879787637}
   m_Layer: 0
   m_Name: IMG_9984
   m_TagString: Fish
@@ -121,7 +122,7 @@ CircleCollider2D:
   m_Offset: {x: -8.9, y: -1.08}
   serializedVersion: 2
   m_Radius: 14.74
---- !u!114 &6080882595007377749
+--- !u!114 &5293732680576328672
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -130,10 +131,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 2323974082775909879}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5b68e37dea653cc4e9cd90c6022b1bea, type: 3}
+  m_Script: {fileID: 11500000, guid: 04268b971820a564abbfda0c7fd53795, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 2
+--- !u!114 &1577710539879787637
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2323974082775909879}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2405b26bfb21bf04cb666670e7cadd94, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  catchProbability: 0
 --- !u!1 &4310816828733388316
 GameObject:
   m_ObjectHideFlags: 0
