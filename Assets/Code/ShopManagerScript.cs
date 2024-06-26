@@ -11,12 +11,21 @@ public class ShopManagerScript : MonoBehaviour
     public Text CoinsTXT;
 
     public Image[] fishImages; // Array der Fisch-Icons für das Inventar
+    public Sprite[] greyFishSprites; // Array der grauen Fisch-Sprites
+    public Sprite[] discoveredFishSprites; // Array der entdeckten Fisch-Sprites
     public TextMeshProUGUI[] fishCounters; // Array der Textfelder für die Counter
     public GameObject fishDetailsPanel; // Panel für Details
     public Text fishDescription; // Textfeld für die Beschreibung
     public Image hiddenFishSlot; // Slot für den versteckten Fisch
 
     private Dictionary<int, int> fishInventory = new Dictionary<int, int>(); // Inventar
+    private string[] fishDescriptions = new string[] // Beispielbeschreibungen
+    {
+        "Description for fish 1",
+        "Description for fish 2",
+        "Description for fish 3",
+        "Description for fish 4"
+    };
 
     void Start()
     {
@@ -42,11 +51,13 @@ public class ShopManagerScript : MonoBehaviour
         // Set hidden fish slot inactive initially
         hiddenFishSlot.gameObject.SetActive(false);
 
-        // Initialize fish inventory counters
+        // Initialize fish inventory counters and set grey images
         for (int i = 0; i < fishImages.Length; i++)
         {
             fishInventory[i] = 0;
-            fishImages[i].gameObject.SetActive(false); // Alle Fisch-Images initial deaktivieren
+            fishImages[i].sprite = greyFishSprites[i]; // Set grey sprite initially
+            fishImages[i].gameObject.SetActive(true); // Make sure the image is active
+            Debug.Log($"Fish Image {i} initialized with grey sprite.");
         }
     }
 
@@ -70,14 +81,15 @@ public class ShopManagerScript : MonoBehaviour
     private void UpdateInventory(int fishID)
     {
         fishInventory[fishID]++;
-        fishImages[fishID].gameObject.SetActive(true); // Fisch-Image aktivieren
+        fishImages[fishID].sprite = discoveredFishSprites[fishID]; // Set the discovered fish sprite
         fishCounters[fishID].text = fishInventory[fishID].ToString();
+        Debug.Log($"Fish ID {fishID} updated: Count = {fishInventory[fishID]}");
     }
 
     public void ShowFishDetails(int fishID)
     {
         fishDetailsPanel.SetActive(true);
-        fishDescription.text = "Description for fish " + fishID;
+        fishDescription.text = fishDescriptions[fishID];
     }
 
     public void HideFishDetails()
