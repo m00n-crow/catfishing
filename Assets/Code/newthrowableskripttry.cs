@@ -108,6 +108,8 @@ public class newthrowableskripttry : MonoBehaviour
         if (isFishNear && Input.GetMouseButtonDown(0))
         {
             CatchFish();
+            // add HideAlert();
+            
         }
 
         if (hasfisch || neustart)
