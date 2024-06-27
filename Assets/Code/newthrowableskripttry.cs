@@ -269,6 +269,17 @@ public class newthrowableskripttry : MonoBehaviour
             yield return null;
         }
 
+        // Notify Shop about fish catch
+        // call your method for calculation with: void UpdateCatchInventory();
+        // create a new script HandleCatchInventory.cs with the above method and 
+        // add the logic to achieve the following tasks: 
+        // Retrieve fish name by object name (disregard (Clone)) or any other information that matches the fishs prefab with the shop manager list items
+        // Update the infos for the array on the shop manager to
+        // disable the gray sprite (if still enabled)
+        // add +1 to the text value 
+        // add debug log to help check if it works
+        
+
         // Nach dem Einholen:
         transform.position = endPosition;
         hasThrown = false;
@@ -284,6 +295,7 @@ public class newthrowableskripttry : MonoBehaviour
         {
             nearestFish.transform.SetParent(null); // Entferne den Fisch vom Haken
             Destroy(nearestFish); // Optional: Zerstöre den Fisch
+            Debug.Log($"Should destroy the nearest fish {nearestFish} now!");
             nearestFish = null;
         }
 
