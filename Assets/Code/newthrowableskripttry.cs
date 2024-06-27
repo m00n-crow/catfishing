@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class newthrowableskripttry : MonoBehaviour
 {
@@ -40,6 +41,9 @@ public class newthrowableskripttry : MonoBehaviour
 
     // Ausgangsposition:
     private Vector3 ausgangsPosition;
+
+    public HandleCatchInventory handleCatchInventory;
+
 
     void Awake()
     {
@@ -109,12 +113,12 @@ public class newthrowableskripttry : MonoBehaviour
         {
             CatchFish();
             // add HideAlert();
-            
+
         }
 
         if (hasfisch || neustart)
         {
-           DisableGravityCompletely();
+            DisableGravityCompletely();
         }
 
     }
@@ -270,17 +274,12 @@ public class newthrowableskripttry : MonoBehaviour
             transform.position = Vector3.Lerp(startPosition, endPosition, fractionOfJourney);
             yield return null;
         }
-
         // Notify Shop about fish catch
-        // call your method for calculation with: void UpdateCatchInventory();
-        // create a new script HandleCatchInventory.cs with the above method and 
-        // add the logic to achieve the following tasks: 
-        // Retrieve fish name by object name (disregard (Clone)) or any other information that matches the fishs prefab with the shop manager list items
-        // Update the infos for the array on the shop manager to
-        // disable the gray sprite (if still enabled)
-        // add +1 to the text value 
-        // add debug log to help check if it works
-        
+        if (nearestFish != null)
+        {
+            string fishName = nearestFish.name;
+            handleCatchInventory.UpdateCatchInventory(fishName); // Rufe die Methode zum Aktualisieren des Inventars auf
+        }
 
         // Nach dem Einholen:
         transform.position = endPosition;
@@ -302,9 +301,23 @@ public class newthrowableskripttry : MonoBehaviour
         }
 
         Debug.Log("Haken eingeholt");
-        yield return new WaitForSeconds(2); 
+        yield return new WaitForSeconds(2);
         ResetScript();
     }
+    // Notify Shop about fish catch
+    // call your method for calculation with: void UpdateCatchInventory();
+    // create a new script HandleCatchInventory.cs with the above method and 
+    // add the logic to achieve the following tasks: 
+    // Retrieve fish name by object name (disregard (Clone)) or any other information that matches the fishs prefab with the shop manager list items
+    // Update the infos for the array on the shop manager to
+    // disable the gray sprite (if still enabled)
+    // add +1 to the text value 
+    // add debug log to help check if it works
+
+
+    // Nach dem Einholen:
+ 
+
 
     void ResetScript()
     {

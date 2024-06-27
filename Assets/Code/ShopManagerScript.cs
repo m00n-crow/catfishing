@@ -18,7 +18,7 @@ public class ShopManagerScript : MonoBehaviour
     public Text fishDescription; // Textfeld für die Beschreibung
     public Image hiddenFishSlot; // Slot für den versteckten Fisch
 
-    private Dictionary<int, int> fishInventory = new Dictionary<int, int>(); // Inventar
+    public Dictionary<int, int> fishInventory = new Dictionary<int, int>(); // Inventar
     private string[] fishDescriptions = new string[] // Beispielbeschreibungen
     {
         "Description for fish 1",
