@@ -45,19 +45,19 @@ public class TimeBox : MonoBehaviour
         hour = TimeManager.Hour;
 
         if (hour >= 4 && hour < 9)
-        { Debug.Log("Wird gelesen");
+        { //Debug.Log("Wird gelesen");
             timeBoxImage.color = dawnColor;
         }
         else if (hour >= 9 && hour < 18)
-        { Debug.Log("Wird gelesen");
+        { //Debug.Log("Wird gelesen");
             timeBoxImage.color = dayColor;
         }
         else if (hour >= 18 && hour < 22)
-        { Debug.Log("Wird gelesen");
+        { //Debug.Log("Wird gelesen");
             timeBoxImage.color = duskColor;
         }
         else
-        { Debug.Log("Wird gelesen");
+        { //Debug.Log("Wird gelesen");
             timeBoxImage.color = nightColor;
         }
     }
