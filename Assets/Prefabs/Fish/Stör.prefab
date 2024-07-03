@@ -11,9 +11,11 @@ GameObject:
   - component: {fileID: 7516970010989693908}
   - component: {fileID: 6880803976901795303}
   - component: {fileID: 1837861712039029367}
+  - component: {fileID: 6702976041682297919}
+  - component: {fileID: 7868335919418454535}
   m_Layer: 0
   m_Name: IMG_9984
-  m_TagString: Untagged
+  m_TagString: Fish
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -117,9 +119,35 @@ CircleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -7.28, y: -4.68}
+  m_Offset: {x: -7.74, y: -4.51}
   serializedVersion: 2
-  m_Radius: 7.03
+  m_Radius: 2.14
+--- !u!114 &6702976041682297919
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2323974082775909879}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04268b971820a564abbfda0c7fd53795, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 2
+--- !u!114 &7868335919418454535
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2323974082775909879}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2405b26bfb21bf04cb666670e7cadd94, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  catchProbability: 0.5
 --- !u!1 &4310816828733388316
 GameObject:
   m_ObjectHideFlags: 0
@@ -133,7 +161,7 @@ GameObject:
   - component: {fileID: 7177018750445829049}
   m_Layer: 0
   m_Name: "St\xF6r"
-  m_TagString: Untagged
+  m_TagString: Fish
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

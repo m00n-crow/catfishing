@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 9213004551000783384}
   m_Layer: 0
   m_Name: Archie
-  m_TagString: Untagged
+  m_TagString: Fish
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -98,9 +98,11 @@ GameObject:
   - component: {fileID: 4315162580872964930}
   - component: {fileID: 5590585703413135506}
   - component: {fileID: 4928274308404731813}
+  - component: {fileID: 7970944083054009431}
+  - component: {fileID: 1195773794187870253}
   m_Layer: 0
   m_Name: Archie
-  m_TagString: Untagged
+  m_TagString: Fish
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -204,6 +206,32 @@ CircleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -15.43, y: 5.08}
+  m_Offset: {x: -14.51, y: 5.64}
   serializedVersion: 2
-  m_Radius: 4.1
+  m_Radius: 2.01
+--- !u!114 &7970944083054009431
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2229634361058921311}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2405b26bfb21bf04cb666670e7cadd94, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  catchProbability: 0.5
+--- !u!114 &1195773794187870253
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2229634361058921311}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04268b971820a564abbfda0c7fd53795, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 2

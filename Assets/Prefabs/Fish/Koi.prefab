@@ -11,9 +11,11 @@ GameObject:
   - component: {fileID: 7516970010989693908}
   - component: {fileID: 6880803976901795303}
   - component: {fileID: 4645132508400071253}
+  - component: {fileID: 8725602580872507679}
+  - component: {fileID: 977503794794784126}
   m_Layer: 0
   m_Name: IMG_9984
-  m_TagString: Untagged
+  m_TagString: Fish
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -117,9 +119,35 @@ CircleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 7.26, y: -4.2}
+  m_Offset: {x: 1.18, y: -4.07}
   serializedVersion: 2
-  m_Radius: 13.33
+  m_Radius: 4.1
+--- !u!114 &8725602580872507679
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2323974082775909879}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2405b26bfb21bf04cb666670e7cadd94, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  catchProbability: 0.5
+--- !u!114 &977503794794784126
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2323974082775909879}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04268b971820a564abbfda0c7fd53795, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 2
 --- !u!1 &4310816828733388316
 GameObject:
   m_ObjectHideFlags: 0
@@ -133,7 +161,7 @@ GameObject:
   - component: {fileID: -8906795399142926617}
   m_Layer: 0
   m_Name: Koi
-  m_TagString: Untagged
+  m_TagString: Fish
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
