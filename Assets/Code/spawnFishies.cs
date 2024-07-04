@@ -8,24 +8,27 @@ public class spawnFishies : MonoBehaviour
 
     public float maxFish = 5f;
     public BoxCollider2D spawnArea;
-    private List<GameObject> swimmingFishies;
     public List<GameObject> allTheFishies;
+
+    public static int amountOfFish = 0;
 
     GameObject randomizedFish, newFish;
 
     private void Start()
     {
-        swimmingFishies = new List<GameObject>();
+        amountOfFish = 0;
         spawnArea = GetComponent<BoxCollider2D>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         time = GameObject.Find("TimeManager").GetComponent<TimeManager>().hour;
-        if(swimmingFishies.Count < maxFish)
+
+        // if the amount of fish in that list is less than the max number of fish: spawn a fish
+        if(amountOfFish < maxFish)
         {
             spawnAFish();
+            Debug.Log("a new catfish has arrived");
         }
     }
     void instantiate()
@@ -40,7 +43,9 @@ public class spawnFishies : MonoBehaviour
 
         // Instantiate the object at the random position
         GameObject instantiatedFish = Instantiate(newFish, spawnPosition, Quaternion.identity);
-        swimmingFishies.Add(instantiatedFish);
+
+        // add 1 to the number of catfishies
+        amountOfFish++;
     }
     void spawnAFish()
     {

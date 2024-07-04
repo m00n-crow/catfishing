@@ -302,6 +302,7 @@ public class newthrowableskripttry : MonoBehaviour
             //nearestFish.transform.SetParent(null); // Entferne den Fisch vom Haken
             Destroy(destroyChild.gameObject); // Optional: Zerstöre den Fisch
             Debug.Log($"Should destroy the nearest fish {destroyChild.gameObject} now!");
+            spawnFishies.amountOfFish = spawnFishies.amountOfFish - 1;
             nearestFish = null;
         }
         
