@@ -56,5 +56,6 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "catfishing.sln"
+    "dotnet.defaultSolution": "catfishing.sln",
+    "dotnet.preferCSharpExtension": true
 }

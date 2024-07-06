@@ -6,11 +6,13 @@ public class newthrowableskripttry : MonoBehaviour
 {
     // Für Wurf:
     Vector3 throwVector;
+    public BiteAlertController biteAlertController;
     Rigidbody2D _rb;
     LineRenderer _lr;
     Collider2D _collider;
     bool isDragging = false;
     bool hasThrown = false; // Überprüft ob der Haken schon geworfen wurde
+    private bool hasFishBite = false;
     bool onlyOnce = true; // Wird nur einmal ausgeführt, um die maximale y-Position zu bestimmen
     bool hasFishCaught = false;
     public bool steuerungErlaubt = false; // Erlaubt die Steuerung nachdem der Haken geworfen wurde
@@ -57,6 +59,16 @@ public class newthrowableskripttry : MonoBehaviour
         {
             originalColliderRadius = circleCollider.radius;
         }
+
+    
+        if (biteAlertController == null)
+        {
+            biteAlertController = FindObjectOfType<BiteAlertController>();
+            if (biteAlertController == null)
+            {
+                Debug.LogError("BiteAlertController not found. Please assign it in the inspector.");
+            }
+        }
     }
 
     void OnMouseDown()
@@ -77,6 +89,14 @@ public class newthrowableskripttry : MonoBehaviour
 
     void Update()
     {
+        if (Input.GetMouseButtonDown(0) && hasFishBite)
+        {
+            // Fisch einholen und Alert verstecken
+            CatchFish();
+            biteAlertController.HideAlert();
+            hasFishBite = false;
+        }
+
         // Für das Werfen zuständig
         if (isDragging && !hasThrown)
         {
@@ -117,6 +137,7 @@ public class newthrowableskripttry : MonoBehaviour
             {
             CatchFish();
             // add HideAlert();
+            biteAlertController.HideAlert();
             }
         }
 
@@ -238,6 +259,13 @@ public class newthrowableskripttry : MonoBehaviour
             Debug.Log("Fisch in der Nähe");
             isFishNear = true;
             nearestFish = other.gameObject;
+
+            if (!hasFish)
+            {
+                Debug.Log("Fisch beißt an");
+                biteAlertController.ShowAlert();
+                hasFishBite = true;
+            }
         }
     }
 
@@ -248,6 +276,7 @@ public class newthrowableskripttry : MonoBehaviour
             Debug.Log("Fisch weg");
             isFishNear = false;
             nearestFish = null;
+            biteAlertController.HideAlert();
         }
     }
 
