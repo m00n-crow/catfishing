@@ -305,8 +305,6 @@ public class newthrowableskripttry : MonoBehaviour
             spawnFishies.amountOfFish = spawnFishies.amountOfFish - 1;
             nearestFish = null;
         }
-        
-        yield return new WaitForSeconds(3);
 
         hasFinishedRetrieving = true;
         ResetScript();
@@ -334,6 +332,7 @@ public class newthrowableskripttry : MonoBehaviour
 
         if (nearestFish != null)
         {
+            Debug.Log("Destoryed");
             Destroy(nearestFish); // Optional: Zerstöre den Fisch
             nearestFish = null;
         }
