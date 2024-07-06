@@ -24,6 +24,8 @@ public class newthrowableskripttry : MonoBehaviour
     public const int multiplier = 100; // Bestimmt wie schnell der Pfeil ausgemalt werden soll
     public const float maxThrowDistance = 2; // Bestimmt wie schnell der Haken maximal geworfen werden soll
     public const int arrowLength = 10; // Bestimmt die Länge des Pfeiles -> Höherer Wert = kleinerer Pfeil
+    
+    public float retrieveSpeed = 9.0f; // Neue Variable für die Einholgeschwindigkeit
 
     // Für WASD Steuerung:
     private float _maxYPosition; // Höchster Punkt für das Movement
@@ -294,11 +296,12 @@ public class newthrowableskripttry : MonoBehaviour
         
     }
 
+    
     IEnumerator RetrieveHookWithFish()
     {
         hasFishCaught = true;
         hasFinishedRetrieving = false;
-        
+
         Vector3 startPosition = transform.position;
         Vector3 endPosition = ausgangsPosition; // Verwende die Instanzvariable hier
         float journeyLength = Vector3.Distance(startPosition, endPosition);
@@ -306,7 +309,7 @@ public class newthrowableskripttry : MonoBehaviour
 
         while (Vector3.Distance(transform.position, endPosition) > 0.1f)
         {
-            float distCovered = (Time.time - startTime) * speed;
+            float distCovered = (Time.time - startTime) * retrieveSpeed; // Verwende retrieveSpeed
             float fractionOfJourney = distCovered / journeyLength;
             transform.position = Vector3.Lerp(startPosition, endPosition, fractionOfJourney);
             yield return null;
@@ -326,13 +329,12 @@ public class newthrowableskripttry : MonoBehaviour
         Debug.Log("Haken eingeholt");
 
         yield return new WaitForSeconds(1);
-        
+
         // Falls ein Fisch gefangen wurde, ihn entfernen
         if (hasFishCaught)
         {
             Transform destroyChild;
             destroyChild = this.gameObject.transform.GetChild(1);
-            //nearestFish.transform.SetParent(null); // Entferne den Fisch vom Haken
             Destroy(destroyChild.gameObject); // Optional: Zerstöre den Fisch
             Debug.Log($"Should destroy the nearest fish {destroyChild.gameObject} now!");
             spawnFishies.amountOfFish = spawnFishies.amountOfFish - 1;
