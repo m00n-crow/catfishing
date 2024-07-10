@@ -20,8 +20,8 @@ public class TimeManager : MonoBehaviour
 
     void Start()
     {
-        Minute = 0;
-        Hour = 10;
+        Minute = 50;
+        Hour = 0;
         timer = minuteToRealTime;
     }
 

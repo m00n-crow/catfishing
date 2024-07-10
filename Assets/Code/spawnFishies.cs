@@ -25,10 +25,18 @@ public class spawnFishies : MonoBehaviour
         time = GameObject.Find("TimeManager").GetComponent<TimeManager>().hour;
 
         // if the amount of fish in that list is less than the max number of fish: spawn a fish
-        if(amountOfFish < maxFish)
+        if (amountOfFish < maxFish)
         {
             spawnAFish();
             Debug.Log("a new catfish has arrived");
+        }
+
+        //Goodbye Archi
+        if (time > 0)
+        { 
+            GameObject Archi;
+            Archi = GameObject.Find("Archie(Clone)");
+            if (Archi != null) Destroy(Archi);
         }
     }
     void instantiate()
@@ -64,6 +72,7 @@ public class spawnFishies : MonoBehaviour
                 instantiate();
             }
             else spawnAFish();
+            
         }
         else if (time == 2)
         {

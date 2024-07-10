@@ -666,7 +666,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ec3c9ab6913df548b96bec712b1275e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  biteAlertController: {fileID: 0}
   steuerungErlaubt: 0
+  retrieveSpeed: 9
   _baseSpeed: 5
   _minSpeedFactor: 0.1
   speed: 2
@@ -687,7 +689,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63955fa4f120b5f48ace882194c31b9d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  biteAlertController: {fileID: 1595196164}
 --- !u!114 &171960824
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3301,6 +3302,7 @@ MonoBehaviour:
   - {fileID: 4310816828733388316, guid: 9d64dfafece571e41aec1db7acc33640, type: 3}
   - {fileID: 4310816828733388316, guid: e34231210fc9dfa479e44c740b0edbf0, type: 3}
   - {fileID: 4310816828733388316, guid: 3dde282bdb0c74b48bb7d67f83550a5f, type: 3}
+  - {fileID: 1991479115517843193, guid: 38c6b7ac50631734abcc899fa9b7118b, type: 3}
 --- !u!61 &1357316317
 BoxCollider2D:
   m_ObjectHideFlags: 0
