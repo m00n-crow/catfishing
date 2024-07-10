@@ -18,11 +18,15 @@ public class HandleCatchInventory : MonoBehaviour
     {
         _fishNameCleaned = RemoveCloneName(fishName);
         Debug.Log($"Trimmed name was {fishName} and is now {_fishNameCleaned}");
-        
-        _confirmedFishID = ConfirmFishIndexID(_fishNameCleaned);
-        Debug.Log($"FishID for catch is {_confirmedFishID}");
-        
-        UpdateInventory(_confirmedFishID, _fishNameCleaned);
+
+        if (_fishNameCleaned == "Archie") spawnFishies.archiCaught = true;
+        else 
+        { 
+            _confirmedFishID = ConfirmFishIndexID(_fishNameCleaned);
+            Debug.Log($"FishID for catch is {_confirmedFishID}");
+
+            UpdateInventory(_confirmedFishID, _fishNameCleaned);
+        }
     }
     
     

@@ -11,6 +11,8 @@ public class spawnFishies : MonoBehaviour
     public List<GameObject> allTheFishies;
 
     public static int amountOfFish = 0;
+    public bool canArchiSpawn = true;
+    public static bool archiCaught = false;
 
     GameObject randomizedFish, newFish;
 
@@ -33,7 +35,8 @@ public class spawnFishies : MonoBehaviour
 
         //Goodbye Archi
         if (time > 0)
-        { 
+        {
+            canArchiSpawn = true;
             GameObject Archi;
             Archi = GameObject.Find("Archie(Clone)");
             if (Archi != null) Destroy(Archi);
@@ -61,8 +64,18 @@ public class spawnFishies : MonoBehaviour
 
         if (time == 0)
         {
-            if (randomizedFish.GetComponent<fishScript>().time0) newFish = randomizedFish;
-            else spawnAFish();
+            if (randomizedFish.GetComponent<fishScript>().time0)
+            { 
+                newFish = randomizedFish;
+                if (newFish.name == "Archie" && canArchiSpawn && !archiCaught)
+                {
+                    instantiate();
+                    canArchiSpawn = false;
+                }
+                else if (newFish.name == "Archie" && !canArchiSpawn) spawnAFish();
+                else instantiate();
+            }
+        else spawnAFish();
         }
         else if (time == 1)
         {
