@@ -34,7 +34,7 @@ public class Schnur : MonoBehaviour
 
     void Update()
     {
-        Vector3 startPosition = new Vector3(-3.1f, -0.1f, 0f);
+        Vector3 startPosition = new Vector3(-2.75f, 1.7f, 0f);
         Vector3 endPosition = new Vector3(_haken.position.x, _haken.position.y, 0);
 
         _lineRendererSchnur.SetPosition(0, startPosition);

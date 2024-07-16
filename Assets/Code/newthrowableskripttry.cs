@@ -15,15 +15,16 @@ public class newthrowableskripttry : MonoBehaviour
     private bool hasFishBite = false;
     bool onlyOnce = true; // Wird nur einmal ausgeführt, um die maximale y-Position zu bestimmen
     bool hasFishCaught = false;
+    bool gravityDisabledAfterRestart = false;
     public bool steuerungErlaubt = false; // Erlaubt die Steuerung nachdem der Haken geworfen wurde
     bool neustart = false;
     bool colliderSmall = true; // Variable für die Collider-Größe
     bool hasFish = false;
 
     // Konstanten für den Haken, welche geändert werden können, um die Eigenschaften des Hakens zu verändern:
-    public const int multiplier = 100; // Bestimmt wie schnell der Pfeil ausgemalt werden soll
-    public const float maxThrowDistance = 2; // Bestimmt wie schnell der Haken maximal geworfen werden soll
-    public const int arrowLength = 10; // Bestimmt die Länge des Pfeiles -> Höherer Wert = kleinerer Pfeil
+    public const int multiplier = 110; // Bestimmt wie schnell der Pfeil ausgemalt werden soll
+    public const float maxThrowDistance = 2.5f; // Bestimmt wie schnell der Haken maximal geworfen werden soll
+    public const int arrowLength = 9; // Bestimmt die Länge des Pfeiles -> Höherer Wert = kleinerer Pfeil
     
     public float retrieveSpeed = 9.0f; // Neue Variable für die Einholgeschwindigkeit
 
@@ -107,8 +108,9 @@ public class newthrowableskripttry : MonoBehaviour
         }
 
         // Aktiviert die Physik des Wassers, sobald der Haken eine gewisse Höhe erreicht hat
-        if (hasThrown && transform.position.y < -2f)
-        {
+        if (hasThrown && transform.position.y < -2f && !gravityDisabledAfterRestart)
+        {   
+            Debug.Log("Gravity disabled slow");
             DisableGravity();
         }
 
@@ -143,8 +145,9 @@ public class newthrowableskripttry : MonoBehaviour
             }
         }
 
-        if (hasFishCaught || neustart)
+        if (hasFishCaught || neustart || gravityDisabledAfterRestart)
         {
+            Debug.Log("Gravity disabled");
             DisableGravityCompletely();
         }
 
@@ -262,6 +265,7 @@ public class newthrowableskripttry : MonoBehaviour
             isFishNear = true;
             nearestFish = other.gameObject;
 
+            // Alert nu so lange anzeigen, wie kein Fisch am Haken ist
             if (!hasFish)
             {
                 Debug.Log("Fisch beißt an");
@@ -293,12 +297,12 @@ public class newthrowableskripttry : MonoBehaviour
         nearestFish.transform.localPosition = Vector3.zero; // Platziere den Fisch am Haken
         isFishNear = false;
         Debug.Log("Fisch geangelt!");
-        
     }
 
     
     IEnumerator RetrieveHookWithFish()
     {
+        gravityDisabledAfterRestart = true;
         hasFishCaught = true;
         hasFinishedRetrieving = false;
 
@@ -317,13 +321,7 @@ public class newthrowableskripttry : MonoBehaviour
 
         // Nach dem Einholen:
         transform.position = endPosition;
-        hasThrown = false;
-        isDragging = false;
-        onlyOnce = true;
         steuerungErlaubt = false;
-        colliderSmall = true;
-        CircleCollider2D circleCollider = (CircleCollider2D)_collider;
-        circleCollider.radius = originalColliderRadius;
 
         handleCatchInventory.UpdateCatchInventory(currentlyHookedFishName);
         Debug.Log("Haken eingeholt");
@@ -353,11 +351,13 @@ public class newthrowableskripttry : MonoBehaviour
         isDragging = false;
         onlyOnce = true;
         hasFishCaught = false;
+        gravityDisabledAfterRestart = false;
         neustart = true;
         steuerungErlaubt = false;
         hasFish = false; 
         colliderSmall = true;
         currentlyHookedFishName = "Kein Fisch am Haken";
+        DisableGravityCompletely();
 
 
         _rb.gravityScale = 1.0f; // Setzen Sie die Standard-Gravitation zurück
