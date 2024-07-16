@@ -15,7 +15,7 @@ public class TimeManager : MonoBehaviour
     public static int Hour { get; private set; }
     public int hour;
 
-    private float minuteToRealTime = 2.5f;
+    private float minuteToRealTime = 1.5f;
     private float timer;
 
     void Start()
