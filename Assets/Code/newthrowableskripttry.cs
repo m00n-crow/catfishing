@@ -14,7 +14,7 @@ public class newthrowableskripttry : MonoBehaviour
     bool hasThrown = false; // Überprüft ob der Haken schon geworfen wurde
     private bool hasFishBite = false;
     bool onlyOnce = true; // Wird nur einmal ausgeführt, um die maximale y-Position zu bestimmen
-    bool hasFishCaught = false;
+    bool startRetrieving = false;
     bool gravityDisabledAfterRestart = false;
     public bool steuerungErlaubt = false; // Erlaubt die Steuerung nachdem der Haken geworfen wurde
     bool neustart = false;
@@ -92,6 +92,13 @@ public class newthrowableskripttry : MonoBehaviour
 
     void Update()
     {
+        // Aktiviert die Physik des Wassers, sobald der Haken eine gewisse Höhe erreicht hat
+        if (hasThrown && transform.position.y < -2f && !gravityDisabledAfterRestart)
+        {   
+            // Debug.Log("Gravity disabled slow");
+            DisableGravity();
+        }
+        
         if (Input.GetMouseButtonDown(0) && hasFishBite)
         {
             // Fisch einholen und Alert verstecken
@@ -107,12 +114,7 @@ public class newthrowableskripttry : MonoBehaviour
             SetArrow();
         }
 
-        // Aktiviert die Physik des Wassers, sobald der Haken eine gewisse Höhe erreicht hat
-        if (hasThrown && transform.position.y < -2f && !gravityDisabledAfterRestart)
-        {   
-            Debug.Log("Gravity disabled slow");
-            DisableGravity();
-        }
+
 
         // Bewegung nach dem Werfen
         if (steuerungErlaubt)
@@ -145,9 +147,9 @@ public class newthrowableskripttry : MonoBehaviour
             }
         }
 
-        if (hasFishCaught || neustart || gravityDisabledAfterRestart)
+        if (startRetrieving || neustart || gravityDisabledAfterRestart)
         {
-            Debug.Log("Gravity disabled");
+            //Debug.Log("Gravity disabled");
             DisableGravityCompletely();
         }
 
@@ -188,7 +190,7 @@ public class newthrowableskripttry : MonoBehaviour
         Vector3 newPosition = transform.position + direction * speed * Time.deltaTime;
 
         // Überprüfen, ob die neue Position den maximalen y-Wert überschreitet
-        if ((newPosition.y > _maxYPosition && !hasFishCaught))
+        if ((newPosition.y > _maxYPosition && !startRetrieving))
         {
             newPosition.y = _maxYPosition;
         }
@@ -217,6 +219,7 @@ public class newthrowableskripttry : MonoBehaviour
 
     void DisableGravityCompletely()
     {
+        Debug.Log("Gravity disabled completely");
         _rb.gravityScale = 0f;
         steuerungErlaubt = false;
     }
@@ -303,7 +306,7 @@ public class newthrowableskripttry : MonoBehaviour
     IEnumerator RetrieveHookWithFish()
     {
         gravityDisabledAfterRestart = true;
-        hasFishCaught = true;
+        startRetrieving = true;
         hasFinishedRetrieving = false;
 
         Vector3 startPosition = transform.position;
@@ -326,17 +329,18 @@ public class newthrowableskripttry : MonoBehaviour
         handleCatchInventory.UpdateCatchInventory(currentlyHookedFishName);
         Debug.Log("Haken eingeholt");
 
-        yield return new WaitForSeconds(1);
 
         // Falls ein Fisch gefangen wurde, ihn entfernen
-        if (hasFishCaught)
+        if (hasFish)
         {
+            yield return new WaitForSeconds(1);
             Transform destroyChild;
             destroyChild = this.gameObject.transform.GetChild(1);
             Destroy(destroyChild.gameObject); // Optional: Zerstöre den Fisch
             Debug.Log($"Should destroy the nearest fish {destroyChild.gameObject} now!");
             spawnFishies.amountOfFish = spawnFishies.amountOfFish - 1;
             nearestFish = null;
+            hasFish = false;
         }
 
         hasFinishedRetrieving = true;
@@ -350,7 +354,7 @@ public class newthrowableskripttry : MonoBehaviour
         hasThrown = false;
         isDragging = false;
         onlyOnce = true;
-        hasFishCaught = false;
+        startRetrieving = false;
         gravityDisabledAfterRestart = false;
         neustart = true;
         steuerungErlaubt = false;
