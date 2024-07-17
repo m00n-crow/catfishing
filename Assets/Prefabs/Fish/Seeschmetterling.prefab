@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: -8588020047784770582}
   - component: {fileID: 6356182077373578878}
   m_Layer: 0
-  m_Name: Seeschmtterling
-  m_TagString: Untagged
+  m_Name: Seeschmetterling
+  m_TagString: Fish
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -98,9 +98,11 @@ GameObject:
   - component: {fileID: 6529267000473000081}
   - component: {fileID: 3853114155877029464}
   - component: {fileID: 7262873220474514297}
+  - component: {fileID: 1057163556333921641}
+  - component: {fileID: 7315621221138243544}
   m_Layer: 0
   m_Name: GameObject
-  m_TagString: Untagged
+  m_TagString: Fish
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -160,7 +162,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 3
   m_Sprite: {fileID: 21300000, guid: 07d9050582c328e4daeb01b4b5f61c83, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -204,6 +206,32 @@ CircleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.37, y: 0.46}
+  m_Offset: {x: -2.08, y: 2.71}
   serializedVersion: 2
-  m_Radius: 9.58
+  m_Radius: 2.91
+--- !u!114 &1057163556333921641
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5680210281014051149}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2405b26bfb21bf04cb666670e7cadd94, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  catchProbability: 0.5
+--- !u!114 &7315621221138243544
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5680210281014051149}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04268b971820a564abbfda0c7fd53795, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 2

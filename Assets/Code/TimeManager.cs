@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
 
-
 // Managed die Zeit die vergeht und greift dabei auf die Time UI zu (bzw die UI orientiert sich an den werten im manager)
 public class TimeManager : MonoBehaviour
 {
@@ -16,12 +15,12 @@ public class TimeManager : MonoBehaviour
     public static int Hour { get; private set; }
     public int hour;
 
-    private float minuteToRealTime = 5.0f;
+    private float minuteToRealTime = 1.5f;
     private float timer;
 
     void Start()
     {
-        Minute = 0;
+        Minute = 00;
         Hour = 10;
         timer = minuteToRealTime;
     }
@@ -40,6 +39,10 @@ public class TimeManager : MonoBehaviour
                 Hour++;
                 Minute = 0;
                 OnHourChanged?.Invoke();
+                if(Hour >= 24)
+                {
+                    Hour = 0;
+                }
             }
             timer = minuteToRealTime;
         }

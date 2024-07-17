@@ -6,21 +6,27 @@ public class newthrowableskripttry : MonoBehaviour
 {
     // Für Wurf:
     Vector3 throwVector;
+    public BiteAlertController biteAlertController;
     Rigidbody2D _rb;
     LineRenderer _lr;
     Collider2D _collider;
     bool isDragging = false;
     bool hasThrown = false; // Überprüft ob der Haken schon geworfen wurde
+    private bool hasFishBite = false;
     bool onlyOnce = true; // Wird nur einmal ausgeführt, um die maximale y-Position zu bestimmen
-    bool hasfisch = false;
-    public bool stuerungErlaubt = false; // Erlaubt die Steuerung nachdem der Haken geworfen wurde
+    bool startRetrieving = false;
+    bool gravityDisabledAfterRestart = false;
+    public bool steuerungErlaubt = false; // Erlaubt die Steuerung nachdem der Haken geworfen wurde
     bool neustart = false;
     bool colliderSmall = true; // Variable für die Collider-Größe
+    bool hasFish = false;
 
     // Konstanten für den Haken, welche geändert werden können, um die Eigenschaften des Hakens zu verändern:
-    public const int multiplier = 100; // Bestimmt wie schnell der Pfeil ausgemalt werden soll
-    public const float maxThrowDistance = 2; // Bestimmt wie schnell der Haken maximal geworfen werden soll
-    public const int arrowLength = 10; // Bestimmt die Länge des Pfeiles -> Höherer Wert = kleinerer Pfeil
+    public const int multiplier = 110; // Bestimmt wie schnell der Pfeil ausgemalt werden soll
+    public const float maxThrowDistance = 2.5f; // Bestimmt wie schnell der Haken maximal geworfen werden soll
+    public const int arrowLength = 9; // Bestimmt die Länge des Pfeiles -> Höherer Wert = kleinerer Pfeil
+    
+    public float retrieveSpeed = 9.0f; // Neue Variable für die Einholgeschwindigkeit
 
     // Für WASD Steuerung:
     private float _maxYPosition; // Höchster Punkt für das Movement
@@ -37,9 +43,14 @@ public class newthrowableskripttry : MonoBehaviour
     public float speed = 2.0f;
     public bool isFishNear = false;
     public GameObject nearestFish;
+    public string currentlyHookedFishName;
+    public bool hasFinishedRetrieving = true;
 
     // Ausgangsposition:
     private Vector3 ausgangsPosition;
+
+    public HandleCatchInventory handleCatchInventory;
+
 
     void Awake()
     {
@@ -50,6 +61,16 @@ public class newthrowableskripttry : MonoBehaviour
         if (_collider is CircleCollider2D circleCollider) // geht irgendwie nicht ohne if
         {
             originalColliderRadius = circleCollider.radius;
+        }
+
+    
+        if (biteAlertController == null)
+        {
+            biteAlertController = FindObjectOfType<BiteAlertController>();
+            if (biteAlertController == null)
+            {
+                Debug.LogError("BiteAlertController not found. Please assign it in the inspector.");
+            }
         }
     }
 
@@ -71,6 +92,21 @@ public class newthrowableskripttry : MonoBehaviour
 
     void Update()
     {
+        // Aktiviert die Physik des Wassers, sobald der Haken eine gewisse Höhe erreicht hat
+        if (hasThrown && transform.position.y < -2f && !gravityDisabledAfterRestart)
+        {   
+            // Debug.Log("Gravity disabled slow");
+            DisableGravity();
+        }
+        
+        if (Input.GetMouseButtonDown(0) && hasFishBite)
+        {
+            // Fisch einholen und Alert verstecken
+            CatchFish();
+            biteAlertController.HideAlert();
+            hasFishBite = false;
+        }
+
         // Für das Werfen zuständig
         if (isDragging && !hasThrown)
         {
@@ -78,14 +114,10 @@ public class newthrowableskripttry : MonoBehaviour
             SetArrow();
         }
 
-        // Aktiviert die Physik des Wassers, sobald der Haken eine gewisse Höhe erreicht hat
-        if (hasThrown && transform.position.y < -2f)
-        {
-            DisableGravity();
-        }
+
 
         // Bewegung nach dem Werfen
-        if (stuerungErlaubt)
+        if (steuerungErlaubt)
         {
             CalculateMovement();
         }
@@ -99,7 +131,7 @@ public class newthrowableskripttry : MonoBehaviour
         }
 
         // Rechtsklick zum Einholen
-        if (hasThrown && Input.GetMouseButtonDown(1))
+        if (hasFinishedRetrieving && hasThrown && Input.GetMouseButtonDown(1))
         {
             StartCoroutine(RetrieveHookWithFish());
         }
@@ -107,14 +139,18 @@ public class newthrowableskripttry : MonoBehaviour
         // Fisch angeln
         if (isFishNear && Input.GetMouseButtonDown(0))
         {
+            if (hasFish == false)
+            {
             CatchFish();
             // add HideAlert();
-            
+            biteAlertController.HideAlert();
+            }
         }
 
-        if (hasfisch || neustart)
+        if (startRetrieving || neustart || gravityDisabledAfterRestart)
         {
-           DisableGravityCompletely();
+            //Debug.Log("Gravity disabled");
+            DisableGravityCompletely();
         }
 
     }
@@ -154,7 +190,7 @@ public class newthrowableskripttry : MonoBehaviour
         Vector3 newPosition = transform.position + direction * speed * Time.deltaTime;
 
         // Überprüfen, ob die neue Position den maximalen y-Wert überschreitet
-        if ((newPosition.y > _maxYPosition && !hasfisch))
+        if ((newPosition.y > _maxYPosition && !startRetrieving))
         {
             newPosition.y = _maxYPosition;
         }
@@ -174,7 +210,7 @@ public class newthrowableskripttry : MonoBehaviour
         _rb.velocity = new Vector2(_rb.velocity.y, 0f); // Setze die y-Komponente der Geschwindigkeit auf 0 (Wurf ausstellen)
         if (onlyOnce)
         {
-            stuerungErlaubt = true;
+            steuerungErlaubt = true;
             _maxYPosition = transform.position.y; // Speichere die aktuelle y-Position als Maximum
             _startXPosition = transform.position.x; // Speichere die aktuelle x-Position als Startpunkt
             onlyOnce = false;
@@ -183,8 +219,9 @@ public class newthrowableskripttry : MonoBehaviour
 
     void DisableGravityCompletely()
     {
+        Debug.Log("Gravity disabled completely");
         _rb.gravityScale = 0f;
-        stuerungErlaubt = false;
+        steuerungErlaubt = false;
     }
     void CalculateThrowVector()
     {
@@ -230,6 +267,14 @@ public class newthrowableskripttry : MonoBehaviour
             Debug.Log("Fisch in der Nähe");
             isFishNear = true;
             nearestFish = other.gameObject;
+
+            // Alert nu so lange anzeigen, wie kein Fisch am Haken ist
+            if (!hasFish)
+            {
+                Debug.Log("Fisch beißt an");
+                biteAlertController.ShowAlert();
+                hasFishBite = true;
+            }
         }
     }
 
@@ -240,24 +285,30 @@ public class newthrowableskripttry : MonoBehaviour
             Debug.Log("Fisch weg");
             isFishNear = false;
             nearestFish = null;
+            biteAlertController.HideAlert();
         }
     }
 
+    // ReSharper disable Unity.PerformanceAnalysis
     void CatchFish()
     {
+        hasFish = true; 
         // Ziehe den Fisch hoch
-        if (nearestFish != null)
-        {
-            nearestFish.transform.SetParent(transform); // Setze den Fisch als Kind des Haken-Objekts
-            nearestFish.transform.localPosition = Vector3.zero; // Platziere den Fisch am Haken
-            isFishNear = false;
-            Debug.Log("Fisch geangelt!");
-        }
+        currentlyHookedFishName = nearestFish.transform.parent.name; // The collision happens on the child object, retrieving the child objects name, which does not help here.
+
+        nearestFish.transform.SetParent(transform); // Setze den Fisch als Kind des Haken-Objekts
+        nearestFish.transform.localPosition = Vector3.zero; // Platziere den Fisch am Haken
+        isFishNear = false;
+        Debug.Log("Fisch geangelt!");
     }
 
+    
     IEnumerator RetrieveHookWithFish()
     {
-        hasfisch = true;
+        gravityDisabledAfterRestart = true;
+        startRetrieving = true;
+        hasFinishedRetrieving = false;
+
         Vector3 startPosition = transform.position;
         Vector3 endPosition = ausgangsPosition; // Verwende die Instanzvariable hier
         float journeyLength = Vector3.Distance(startPosition, endPosition);
@@ -265,56 +316,53 @@ public class newthrowableskripttry : MonoBehaviour
 
         while (Vector3.Distance(transform.position, endPosition) > 0.1f)
         {
-            float distCovered = (Time.time - startTime) * speed;
+            float distCovered = (Time.time - startTime) * retrieveSpeed; // Verwende retrieveSpeed
             float fractionOfJourney = distCovered / journeyLength;
             transform.position = Vector3.Lerp(startPosition, endPosition, fractionOfJourney);
             yield return null;
         }
 
-        // Notify Shop about fish catch
-        // call your method for calculation with: void UpdateCatchInventory();
-        // create a new script HandleCatchInventory.cs with the above method and 
-        // add the logic to achieve the following tasks: 
-        // Retrieve fish name by object name (disregard (Clone)) or any other information that matches the fishs prefab with the shop manager list items
-        // Update the infos for the array on the shop manager to
-        // disable the gray sprite (if still enabled)
-        // add +1 to the text value 
-        // add debug log to help check if it works
-        
-
         // Nach dem Einholen:
         transform.position = endPosition;
-        hasThrown = false;
-        isDragging = false;
-        onlyOnce = true;
-        stuerungErlaubt = false;
-        colliderSmall = true;
-        CircleCollider2D circleCollider = (CircleCollider2D)_collider;
-        circleCollider.radius = originalColliderRadius;
+        steuerungErlaubt = false;
+
+        handleCatchInventory.UpdateCatchInventory(currentlyHookedFishName);
+        Debug.Log("Haken eingeholt");
+
 
         // Falls ein Fisch gefangen wurde, ihn entfernen
-        if (nearestFish != null)
+        if (hasFish)
         {
-            nearestFish.transform.SetParent(null); // Entferne den Fisch vom Haken
-            Destroy(nearestFish); // Optional: Zerstöre den Fisch
-            Debug.Log($"Should destroy the nearest fish {nearestFish} now!");
+            yield return new WaitForSeconds(1);
+            Transform destroyChild;
+            destroyChild = this.gameObject.transform.GetChild(1);
+            Destroy(destroyChild.gameObject); // Optional: Zerstöre den Fisch
+            Debug.Log($"Should destroy the nearest fish {destroyChild.gameObject} now!");
+            spawnFishies.amountOfFish = spawnFishies.amountOfFish - 1;
             nearestFish = null;
+            hasFish = false;
         }
 
-        Debug.Log("Haken eingeholt");
-        yield return new WaitForSeconds(2); 
+        hasFinishedRetrieving = true;
         ResetScript();
     }
 
+    
     void ResetScript()
     {
+        Debug.Log("Reset Script starts now...");
         hasThrown = false;
         isDragging = false;
         onlyOnce = true;
-        hasfisch = false;
+        startRetrieving = false;
+        gravityDisabledAfterRestart = false;
         neustart = true;
-        stuerungErlaubt = false;
+        steuerungErlaubt = false;
+        hasFish = false; 
         colliderSmall = true;
+        currentlyHookedFishName = "Kein Fisch am Haken";
+        DisableGravityCompletely();
+
 
         _rb.gravityScale = 1.0f; // Setzen Sie die Standard-Gravitation zurück
         _rb.velocity = Vector2.zero; // Setzen Sie die Geschwindigkeit zurück
@@ -322,13 +370,5 @@ public class newthrowableskripttry : MonoBehaviour
 
         CircleCollider2D circleCollider = (CircleCollider2D)_collider;
         circleCollider.radius = originalColliderRadius;
-
-        if (nearestFish != null)
-        {
-            Destroy(nearestFish); // Optional: Zerstöre den Fisch
-            nearestFish = null;
-        }
-
-        // Entfernen Sie ggf. andere notwendige Rücksetzungen
     }
 }

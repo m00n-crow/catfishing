@@ -8,24 +8,38 @@ public class spawnFishies : MonoBehaviour
 
     public float maxFish = 5f;
     public BoxCollider2D spawnArea;
-    private List<GameObject> swimmingFishies;
     public List<GameObject> allTheFishies;
+
+    public static int amountOfFish = 0;
+    public bool canArchiSpawn = true;
+    public static bool archiCaught = false;
 
     GameObject randomizedFish, newFish;
 
     private void Start()
     {
-        swimmingFishies = new List<GameObject>();
+        amountOfFish = 0;
         spawnArea = GetComponent<BoxCollider2D>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         time = GameObject.Find("TimeManager").GetComponent<TimeManager>().hour;
-        if(swimmingFishies.Count < maxFish)
+
+        // if the amount of fish in that list is less than the max number of fish: spawn a fish
+        if (amountOfFish < maxFish)
         {
             spawnAFish();
+            Debug.Log("a new catfish has arrived");
+        }
+
+        //Goodbye Archi
+        if (time > 0)
+        {
+            canArchiSpawn = true;
+            GameObject Archi;
+            Archi = GameObject.Find("Archie(Clone)");
+            if (Archi != null) Destroy(Archi);
         }
     }
     void instantiate()
@@ -40,7 +54,9 @@ public class spawnFishies : MonoBehaviour
 
         // Instantiate the object at the random position
         GameObject instantiatedFish = Instantiate(newFish, spawnPosition, Quaternion.identity);
-        swimmingFishies.Add(instantiatedFish);
+
+        // add 1 to the number of catfishies
+        amountOfFish++;
     }
     void spawnAFish()
     {
@@ -48,8 +64,18 @@ public class spawnFishies : MonoBehaviour
 
         if (time == 0)
         {
-            if (randomizedFish.GetComponent<fishScript>().time0) newFish = randomizedFish;
-            else spawnAFish();
+            if (randomizedFish.GetComponent<fishScript>().time0)
+            { 
+                newFish = randomizedFish;
+                if (newFish.name == "Archie" && canArchiSpawn && !archiCaught)
+                {
+                    instantiate();
+                    canArchiSpawn = false;
+                }
+                else if (newFish.name == "Archie" && !canArchiSpawn) spawnAFish();
+                else instantiate();
+            }
+        else spawnAFish();
         }
         else if (time == 1)
         {
@@ -59,6 +85,7 @@ public class spawnFishies : MonoBehaviour
                 instantiate();
             }
             else spawnAFish();
+            
         }
         else if (time == 2)
         {

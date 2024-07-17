@@ -5,41 +5,39 @@ using UnityEngine;
 // für visuelle Darstellung der Schnur
 public class Schnur : MonoBehaviour
 {
-    public Transform Haken;
+    private Transform _haken;
+    private LineRenderer _lineRendererSchnur;
+    private bool _isHakenNull;
+    public Color lineColor;
 
-    private LineRenderer LineRenderer;
-    // public Color lineColor = Color.white;
-
+    void Awake()
+    {
+        _haken = GameObject.Find("haken").GetComponent<Transform>();
+        _isHakenNull = _haken == null;
+        _lineRendererSchnur = GetComponent<LineRenderer>();
+    }
+    
     void Start()
     {
-        LineRenderer = GetComponent<LineRenderer>();
-        if (LineRenderer == null)
+        if (_lineRendererSchnur != null)
         {
-            Debug.LogError("LineRenderer nicht gefunden!");
-            return;
+            _lineRendererSchnur.positionCount = 2; // start und end- punkt
+            _lineRendererSchnur.material.color = lineColor;
+            Debug.Log("Schnur wurden angebracht!");
         }
 
-        if (Haken == null)
+        if (_isHakenNull)
         {
-            Debug.LogError("Haken Transform ist nicht zugewiesen!");
-            return;
+            Debug.LogError("Haken wurde nicht gefunden.");
         }
-
-        LineRenderer.positionCount = 2; // start und end- punkt
     }
 
     void Update()
     {
-        if (Haken == null)
-        {
-            Debug.LogError("Haken Transform ist nicht zugewiesen!");
-            return;
-        }
+        Vector3 startPosition = new Vector3(-2.7f, 1.7f, 0f);
+        Vector3 endPosition = new Vector3(_haken.position.x, _haken.position.y, 0);
 
-        Vector3 startPosition = new Vector3(-3.1f, -0.1f, 0f);
-        Vector3 endPosition = new Vector3(Haken.position.x, Haken.position.y, 0);
-
-        LineRenderer.SetPosition(0, startPosition);
-        LineRenderer.SetPosition(1, endPosition);
+        _lineRendererSchnur.SetPosition(0, startPosition);
+        _lineRendererSchnur.SetPosition(1, endPosition);
     }
 }
